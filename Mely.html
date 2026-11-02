@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#180729">
   <meta name="description" content="Homenaje interactivo a la Profra. Melyssa Lucero Tovías por sus 19 años de trayectoria en la docencia de Telesecundaria.">
   <title>19 años de inspiración | Profra. Melyssa Lucero Tovías</title>
+  <meta name="version" content="encuadre-adaptativo-2">
   <style>
     :root{color-scheme:dark;--a:#ffcc5c;--b:#f25ba1;--c:#754cff;--ink:#fff7ec;--muted:#dbcce5;--glass:rgba(23,12,43,.56);--ease:cubic-bezier(.2,.88,.2,1);font-family:Trebuchet MS,Segoe UI,Arial,sans-serif}
     *{box-sizing:border-box}html,body{margin:0;min-width:300px;min-height:100%;overscroll-behavior:none}body{background:#12081c;color:var(--ink)}button,input{font:inherit}button{cursor:pointer}button:focus-visible,.photo-card:focus-visible{outline:3px solid #fff;outline-offset:4px}button:disabled{opacity:.4;cursor:default}button svg{width:21px;height:21px;display:block}button{touch-action:manipulation}#app{position:relative;width:100%;min-height:100svh;min-height:100dvh;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 75% 15%,color-mix(in srgb,var(--c) 39%,transparent),transparent 46%),radial-gradient(circle at 10% 75%,color-mix(in srgb,var(--b) 28%,transparent),transparent 45%),linear-gradient(145deg,#1b0d32,#0c091f 75%);transition:background 850ms ease}
@@ -20,6 +21,52 @@
     .music-bars{display:inline-flex;gap:2px;height:16px;align-items:end}.music-bars i{width:3px;height:7px;border-radius:3px;background:#ffe3a7;animation:equalize .65s ease-in-out infinite alternate}.music-bars i:nth-child(2){height:14px;animation-delay:.18s}.music-bars i:nth-child(3){height:9px;animation-delay:.36s}.music-bars.off i{animation:none;height:4px;background:#8f7e9f}
     .mobile-only{display:block}@media(min-width:700px){#app{max-width:650px;min-height:100svh;margin:0 auto;box-shadow:0 0 100px #000b}.intro{min-height:100svh}.intro-number{font-size:250px}.player{min-height:660px}.small-foot{position:static;margin-top:18px}.photo-card{width:75%}}@media(max-height:720px){.intro{justify-content:flex-start;gap:1px}.intro .tiny-overline{margin:2px 0 0}.years-hero{height:27dvh;min-height:138px}.intro-number{font-size:clamp(125px,39vw,220px)}.years-word{font-size:27px}.intro-title{font-size:clamp(19px,5.4vw,26px)}.profname{margin-top:7px;font-size:clamp(18px,5.3vw,25px)}.rule{margin:10px auto}.feature-rail{margin:9px auto}.intro-actions{gap:7px}.cta{padding:13px}.intro-note{margin-top:7px}.player{gap:5px}.top-name h1{font-size:clamp(19px,5.4vw,28px)}.festival-line{margin-top:5px}.stage-word{font-size:clamp(20px,6.6vw,36px)}.quote{font-size:clamp(14px,3.7vw,18px)}.quote-credit{margin-top:3px}.controls{margin-top:7px}.circle-btn{width:42px;height:42px;border-radius:14px}.round-counter{font-size:21px}}@media(max-height:570px){.player{overflow-y:auto;min-height:560px}.intro{min-height:560px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.photo-card{will-change:auto}}
     @keyframes spin{to{transform:rotate(360deg)}}@keyframes drift{to{transform:translate(18%,24%) scale(1.15)}}@keyframes beammove{to{transform:translateX(130px) rotate(-8deg)}}@keyframes introNumber{from{opacity:0;transform:scale(2) rotate(-9deg);filter:blur(18px)}60%{opacity:1;filter:blur(0)}to{opacity:1;transform:scale(1);filter:drop-shadow(0 12px 1px rgba(29,3,55,.32)) drop-shadow(0 0 35px rgba(255,204,92,.35))}}@keyframes rise{from{opacity:0;transform:translateY(29px)}to{opacity:1;transform:translateY(0)}}@keyframes twinkle{0%,100%{opacity:.5;transform:scale(.8) rotate(-12deg)}50%{opacity:1;transform:scale(1.25) rotate(15deg)}}@keyframes stageWord{from{opacity:0;transform:translate(-50%,40px) scale(1.9) skewX(-16deg)}60%{opacity:1;transform:translate(-50%,-4px) scale(.96) skewX(4deg)}to{opacity:1;transform:translate(-50%,0) scale(1) skewX(0)}}@keyframes heroSelection{0%{transform:scale(.77) rotate(-5deg);filter:brightness(2.4)}50%{transform:scale(1.07) rotate(1deg);filter:brightness(1.4)}100%{transform:scale(1) rotate(0);filter:brightness(1)}}@keyframes quoteReveal{from{opacity:0;transform:translateY(12px);filter:blur(8px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}@keyframes impactFlash{0%{opacity:.85}25%{opacity:.4}100%{opacity:0}}@keyframes ringShock{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}90%{opacity:.6}100%{opacity:0;transform:translate(-50%,-50%) scale(18)}}@keyframes linesFlare{0%{opacity:.95;transform:scale(.45)}100%{opacity:0;transform:scale(2)}}@keyframes equalize{to{height:3px}}
+
+    /* AJUSTE INTELIGENTE DE LAS FOTOGRAFÍAS — versión móvil */
+    /* El JavaScript mide naturalWidth/naturalHeight para cada fotografía.
+       El marco se adapta, sin estirar ni recortar la imagen. */
+    .photo-card{
+      width:min(81%,376px); height:calc(100% - 20px); max-height:none;
+      transition:transform .75s var(--ease), opacity .75s ease, filter .75s ease,
+                 width .45s var(--ease), height .45s var(--ease);
+    }
+    .photo-card[data-fitted="true"]{transition:transform .75s var(--ease), opacity .75s ease,
+      filter .75s ease, width .45s var(--ease), height .45s var(--ease)}
+    .photo-card .photo-surface{isolation:isolate}
+    .photo-card .photo-image{
+      width:100%;height:100%;display:block;object-fit:contain;object-position:center center;
+      image-orientation:from-image;filter:contrast(1.025) saturate(1.045);
+    }
+    .photo-card .photo-blur{opacity:.44;filter:blur(26px) brightness(.76) saturate(1.15)}
+    .photo-card[data-orientation="landscape"] .photo-blur{opacity:.64}
+    .photo-card[data-orientation="landscape"] .photo-top-label{font-size:7px;padding:5px 7px}
+    .photo-card[data-orientation="landscape"] .photo-top{top:9px;left:10px;right:10px}
+    .photo-card[data-orientation="landscape"] .photo-bottom{display:none}
+    .photo-card[data-orientation="landscape"] .photo-counter{font-size:15px}
+    .photo-card[data-orientation="square"] .photo-bottom{font-size:8px;padding:6px 8px}
+    .photo-card[data-orientation="panorama"] .photo-bottom{display:none}
+    .photo-card[data-orientation="panorama"] .photo-top-label{display:none}
+    .photo-card[data-offset="0"] .photo-inner{box-shadow:0 0 0 2px rgba(255,255,255,.17),
+      0 22px 60px rgba(0,0,0,.58),0 0 46px color-mix(in srgb,var(--a) 29%,transparent)}
+    @media(max-width:370px){
+      .photo-card[data-orientation="landscape"] .photo-top-label{display:none}
+      .stage-word{max-width:96%;overflow:hidden;text-overflow:ellipsis;font-size:clamp(17px,6vw,26px)}
+    }
+    /* Al tocar la imagen central se abre una vista que utiliza la pantalla completa. */
+    .photo-lightbox[hidden]{display:none!important}
+    .photo-lightbox{position:fixed;inset:0;z-index:80;background:rgba(8,4,20,.975);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:calc(env(safe-area-inset-top) + 56px) 12px calc(env(safe-area-inset-bottom) + 60px);
+      backdrop-filter:blur(14px);animation:zoomInFrame .24s ease both}
+    .photo-lightbox img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;
+      object-fit:contain;box-shadow:0 16px 55px rgba(0,0,0,.35);border-radius:8px}
+    .photo-lightbox .photo-zoom-close{position:absolute;right:16px;top:calc(12px + env(safe-area-inset-top));
+      width:43px;height:43px;border:1px solid rgba(255,255,255,.4);border-radius:50%;
+      background:#ffffff22;color:white;font-size:28px;display:grid;place-items:center}
+    .photo-lightbox .zoom-credit{position:absolute;bottom:calc(22px + env(safe-area-inset-bottom));
+      left:10px;right:10px;text-align:center;color:#ffe6bb;font-size:12px;
+      font-weight:800;letter-spacing:.06em}
+    @keyframes zoomInFrame{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
   </style>
 </head>
 <body>
@@ -75,6 +122,11 @@
       </footer>
     </main>
 
+    <div id="photoLightbox" class="photo-lightbox" role="dialog" aria-modal="true" aria-label="Fotografía ampliada" hidden>
+      <button id="photoZoomClose" class="photo-zoom-close" type="button" aria-label="Cerrar fotografía ampliada">×</button>
+      <img id="zoomImage" alt="Fotografía ampliada de la trayectoria docente" loading="eager">
+      <div id="zoomCredit" class="zoom-credit">Profra. Melyssa Lucero Tovías</div>
+    </div>
     <div id="impact" class="impact" aria-hidden="true"><div class="impact-lines"></div><div class="impact-ring"></div></div>
     <div id="settingsBackdrop" class="settings-backdrop" hidden>
       <section class="settings" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
@@ -151,15 +203,54 @@
     const settingsBackdrop=$('settingsBackdrop');
     let photos=Array.from({length:total},(_,i)=>`./${i+1}.jpeg`), uploadedUrls=[], index=0, running=true, started=false, advancing=null, musicPlaying=false, toastTimer;
     let autoPhotoCount=0, manualPhotoCount=0, savedMusicName='musica.mp3';
+    const originalDimensions=Array(total).fill(null); // se obtiene de cada imagen real, no se presupone un formato 9:16.
     const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
     const pad=n=>String(n).padStart(2,'0');
     const wrap=n=>(n%total+total)%total;
     const note=s=>{const el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3600)};
     const bookSvg='<svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M64 31c-18-12-33-10-48-7v70c21-5 34 1 48 10 14-9 27-15 48-10V24c-15-3-30-5-48 7Z" fill="#FFE8A7" fill-opacity=".15" stroke="#FFE9AB" stroke-width="5" stroke-linejoin="round"/><path d="M64 31v73M29 44c10-2 19 0 25 5m-25 13c10-2 19 0 25 5m20-18c7-5 16-7 25-5M74 67c7-5 16-7 25-5" stroke="#FFE9AB" stroke-width="4" stroke-linecap="round"/><path d="m64 5 5 13 13 5-13 5-5 13-5-13-13-5 13-5 5-13Z" fill="#FFAFD4"/></svg>';
     function selectTheme(){const t=themes[index%themes.length];app.style.setProperty('--a',t[0]);app.style.setProperty('--b',t[1]);app.style.setProperty('--c',t[2]);document.querySelector('meta[name="theme-color"]').setAttribute('content',t[2]);}
+    // Dimensiona el marco de forma individual para cada foto, sin recortes.
+    // Formatos extremos utilizan un marco equilibrado y bandas decorativas desenfocadas.
+    function fitPhotoCard(card, dimension){
+      if(!dimension || !dimension.w || !dimension.h) return;
+      const ratio=dimension.w/dimension.h;
+      const stageW=Math.max(deck.clientWidth, 280);
+      const stageH=Math.max(deck.clientHeight, 180);
+      const maxW=Math.min(stageW*.945, 510);
+      const maxH=Math.min(stageH*.94, 590);
+      const frameRatio=Math.max(.74,Math.min(ratio,1.94));
+      // vertical: aprovecha altura; horizontal: aprovecha anchura; cuadrada: equilibra ambas.
+      let w=Math.min(maxW,maxH*frameRatio);
+      let h=w/frameRatio;
+      if(h>maxH){h=maxH;w=h*frameRatio}
+      // Reservar un margen para bordes y destellos.
+      card.style.width=`${Math.round(w)}px`;
+      card.style.height=`${Math.round(h)}px`;
+      card.dataset.fitted='true';
+      let orientation='square';
+      if(ratio>=2.25)orientation='panorama';
+      else if(ratio>=1.18)orientation='landscape';
+      else if(ratio<.86)orientation='portrait';
+      card.dataset.orientation=orientation;
+      card.title=`Foto ${Number(card.dataset.photoIndex)+1} · ${dimension.w} × ${dimension.h} · Toca para ampliar`;
+    }
+    function fitCachedCard(card,idx){if(originalDimensions[idx])fitPhotoCard(card,originalDimensions[idx]);}
+    function openPhotoZoom(card){
+      const img=card.querySelector('img.photo-image');
+      if(!img || !img.complete || img.naturalWidth===0)return;
+      const big=$('zoomImage');big.src=img.currentSrc||img.src;
+      $('zoomCredit').textContent=`RECUERDO ${pad(Number(card.dataset.photoIndex)+1)} / 33 · Profra. Melyssa Lucero Tovías`;
+      $('photoLightbox').hidden=false;clearTimeout(advancing);$('photoZoomClose').focus();
+    }
+    function closePhotoZoom(){
+      $('photoLightbox').hidden=true;$('zoomImage').removeAttribute('src');
+      schedule();const active=deck.querySelector('.photo-card[data-offset="0"]');active?.focus();
+    }
     function makeCard(idx,offset){
       const item=document.createElement('button');item.type='button';item.className='photo-card';item.dataset.offset=offset;item.dataset.photoIndex=idx;
       const absoluteIndex=wrap(idx);const number=pad(absoluteIndex+1);item.setAttribute('aria-label',`Ver fotografía ${absoluteIndex+1} de ${total}`);
+      fitCachedCard(item,absoluteIndex);
       const inner=document.createElement('div');inner.className='photo-inner';const surface=document.createElement('div');surface.className='photo-surface';
       if(photos[absoluteIndex]){
         const blur=document.createElement('div');blur.className='photo-blur';blur.style.backgroundImage=`url("${photos[absoluteIndex].replaceAll('"','%22')}")`;surface.append(blur);
@@ -178,7 +269,10 @@
           surface.append(missing);
           if(absoluteIndex===index&&manualPhotoCount===0)note(`No se pudo abrir ${absoluteIndex+1}.jpeg. Revisa que la foto y el HTML estén realmente en la misma carpeta, o usa «Cargar fotografías».`);
         });
-        img.addEventListener('load',()=>{blur.style.backgroundImage=`url("${candidates[attempt].replaceAll('"','%22')}")`;if(manualPhotoCount===0)photos[absoluteIndex]=candidates[attempt]});
+        img.addEventListener('load',()=>{blur.style.backgroundImage=`url("${candidates[attempt].replaceAll('"','%22')}")`;if(manualPhotoCount===0)photos[absoluteIndex]=candidates[attempt];
+          originalDimensions[absoluteIndex]={w:img.naturalWidth,h:img.naturalHeight};
+          fitPhotoCard(item,originalDimensions[absoluteIndex]);
+        });
         img.src=candidates[0];surface.append(img);
       }else{
         const placeholder=document.createElement('div');placeholder.className='photo-placeholder';placeholder.innerHTML=bookSvg+`<strong>RECUERDO ${number}</strong><span>19 años dejando huella<br>Fotografía pendiente</span>`;surface.append(placeholder);
@@ -187,7 +281,7 @@
       const bottom=document.createElement('div');bottom.className='photo-bottom';bottom.textContent='Profra. Melyssa Lucero Tovías';
       inner.append(surface,top,bottom);const corner=document.createElement('div');corner.className='photo-corner';inner.append(corner);item.append(inner);
       positionCard(item,offset);
-      item.addEventListener('click',()=>{if(offset===0){flash();spray(28);return}goto(wrap(idx),true)});
+      item.addEventListener('click',()=>{if(offset===0){openPhotoZoom(item);return}goto(wrap(idx),true)});
       return item;
     }
     function positionCard(card,offset){
@@ -208,7 +302,7 @@
     function flash(){if(reducedMotion.matches)return;const e=$('impact');e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}
     function goto(target,showFx=true){if(!started)return;index=wrap(target);render();if(showFx){flash();spray(index===0?65:28)}schedule()}
     function next(){goto(index+1)}function prev(){goto(index-1)}
-    function schedule(){clearTimeout(advancing);if(started&&running&&!document.hidden&&settingsBackdrop.hidden)advancing=setTimeout(next,7700)}
+    function schedule(){clearTimeout(advancing);if(started&&running&&!document.hidden&&settingsBackdrop.hidden&&$('photoLightbox').hidden)advancing=setTimeout(next,7700)}
     function setRunning(state){running=state;$('playIcon').innerHTML=running?'<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>':'<path d="m8 4 12 8-12 8z"/>';$('playBtn').setAttribute('aria-label',running?'Pausar presentación':'Reanudar presentación');schedule();}
     function updatePhotoStatus(){
       const count=manualPhotoCount||autoPhotoCount;
@@ -222,7 +316,7 @@
     function handlePhotos(files){
       const array=Array.from(files).filter(f=>f.type.startsWith('image/')||/\.(png|jpe?g|webp|gif|avif|bmp)$/i.test(f.name)).sort(naturalSort);
       if(!array.length){note('Selecciona archivos de imagen válidos.');return}
-      uploadedUrls.forEach(URL.revokeObjectURL);uploadedUrls=[];
+      uploadedUrls.forEach(URL.revokeObjectURL);uploadedUrls=[];originalDimensions.fill(null);
       // A numbered photo always stays at its numbered position even when the user selects a folder.
       const indexed=new Map();for(const file of array){const match=file.name.match(/^([1-9]|[12][0-9]|3[0-3])\.jpe?g$/i);if(match)indexed.set(Number(match[1])-1,file)}
       const useNumbers=indexed.size>0;
@@ -247,12 +341,14 @@
     photoInput.addEventListener('change',e=>{if(e.target.files?.length)handlePhotos(e.target.files);photoInput.value=''});
     $('changeMusic').addEventListener('click',()=>musicInput.click());musicInput.addEventListener('change',e=>{const file=e.target.files?.[0];if(!file)return;if(audio.dataset.uploadedUrl)URL.revokeObjectURL(audio.dataset.uploadedUrl);const url=URL.createObjectURL(file);audio.dataset.uploadedUrl=url;audio.src=url;savedMusicName=file.name;audio.load();updatePhotoStatus();if(started)tryMusic();note(`Música seleccionada: ${file.name}`);musicInput.value=''});
     $('musicBtn').addEventListener('click',()=>{if(musicPlaying){audio.pause();musicPlaying=false;syncMusic()}else tryMusic()});audio.addEventListener('error',()=>{musicPlaying=false;syncMusic()});audio.addEventListener('pause',()=>{musicPlaying=false;syncMusic()});audio.addEventListener('play',()=>{musicPlaying=true;syncMusic()});
+    $('photoZoomClose').addEventListener('click',closePhotoZoom);
+    $('photoLightbox').addEventListener('click',e=>{if(e.target===$('photoLightbox'))closePhotoZoom()});
     $('nextBtn').addEventListener('click',next);$('prevBtn').addEventListener('click',prev);$('playBtn').addEventListener('click',()=>setRunning(!running));
     $('settingsBtn').addEventListener('click',openSettings);$('closeSettings').addEventListener('click',closeSettings);$('resumeBtn').addEventListener('click',closeSettings);
     $('restartBtn').addEventListener('click',()=>{closeSettings();goto(0);setRunning(true);spray(130)});
     settingsBackdrop.addEventListener('click',e=>{if(e.target===settingsBackdrop)closeSettings()});
     $('fullscreenBtn').addEventListener('click',async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){note('Pantalla completa no disponible en este navegador.')}});
-    document.addEventListener('keydown',e=>{if(!started||!settingsBackdrop.hidden){if(e.key==='Escape'&&!settingsBackdrop.hidden)closeSettings();return}if(e.key==='ArrowRight'){next();e.preventDefault()}if(e.key==='ArrowLeft'){prev();e.preventDefault()}if(e.key===' '){setRunning(!running);e.preventDefault()}});
+    document.addEventListener('keydown',e=>{if(!$('photoLightbox').hidden){if(e.key==='Escape'){closePhotoZoom();e.preventDefault()}return}if(!started||!settingsBackdrop.hidden){if(e.key==='Escape'&&!settingsBackdrop.hidden)closeSettings();return}if(e.key==='ArrowRight'){next();e.preventDefault()}if(e.key==='ArrowLeft'){prev();e.preventDefault()}if(e.key===' '){setRunning(!running);e.preventDefault()}});
     document.addEventListener('visibilitychange',schedule);
     let touchStart=null;stage.addEventListener('touchstart',e=>{touchStart={x:e.changedTouches[0].screenX,y:e.changedTouches[0].screenY}},{passive:true});stage.addEventListener('touchend',e=>{if(!touchStart)return;const dx=e.changedTouches[0].screenX-touchStart.x,dy=e.changedTouches[0].screenY-touchStart.y;touchStart=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2){dx<0?next():prev()}},{passive:true});
     // Each numbered photo corresponds directly to its slide:
@@ -283,7 +379,7 @@
     window.addEventListener('resize',()=>{sizeCanvas();if(started)render()});sizeCanvas();requestAnimationFrame(animate);
     updatePhotoStatus();detectLocalPhotos();
     // Public helper for integrating this HTML into other sites (e.g., if photos have different names).
-    window.homenajeMelyssa={setPhotos(urls){uploadedUrls.forEach(URL.revokeObjectURL);uploadedUrls=[];manualPhotoCount=Math.min(urls.length,total);photos=Array.from({length:total},(_,i)=>urls[i]||null);updatePhotoStatus();if(started)render()},goTo:goto};
+    window.homenajeMelyssa={setPhotos(urls){uploadedUrls.forEach(URL.revokeObjectURL);uploadedUrls=[];originalDimensions.fill(null);manualPhotoCount=Math.min(urls.length,total);photos=Array.from({length:total},(_,i)=>urls[i]||null);updatePhotoStatus();if(started)render()},goTo:goto};
   })();
   </script>
 </body>
