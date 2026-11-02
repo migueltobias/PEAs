@@ -36,11 +36,11 @@
       <div class="feature-rail"><span>✦ 33 recuerdos</span><span>✦ 33 dedicatorias</span><span>✦ Una gran historia</span></div>
       <div class="intro-actions">
         <button id="startBtn" class="cta" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg> COMENZAR HOMENAJE</button>
-        <button id="introPhotos" class="secondary" type="button">✧ CARGAR FOTOGRAFÍAS (1.jpg A 33.jpg)</button>
+        <button id="introPhotos" class="secondary" type="button">✧ CARGAR FOTOGRAFÍAS (1.jpeg A 33.jpeg)</button>
         <button id="introFolder" class="secondary" type="button">📂 O SELECCIONAR CARPETA COMPLETA</button>
       </div>
       <div id="introLoaded" class="load-state" aria-live="polite"></div>
-      <p class="intro-note">Las imágenes deben llamarse <strong>1.jpg, 2.jpg… 33.jpg</strong> y estar junto a este HTML. Si abres solo el HTML desde una vista previa o mensajería, selecciona las imágenes con el botón. La música se llama <strong>musica.mp3</strong>.</p>
+      <p class="intro-note">Las imágenes deben llamarse <strong>1.jpeg, 2.jpeg… 33.jpeg</strong> y estar junto a este HTML. Si abres solo el HTML desde una vista previa o mensajería, selecciona las imágenes con el botón. La música se llama <strong>musica.mp3</strong>.</p>
       <div class="small-foot">19 AÑOS • VOCACIÓN • LEGADO • INSPIRACIÓN</div>
     </section>
 
@@ -79,7 +79,7 @@
     <div id="settingsBackdrop" class="settings-backdrop" hidden>
       <section class="settings" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
         <div class="settings-head"><h2 id="settingsTitle">Personalizar el homenaje</h2><button id="closeSettings" class="icon-button" aria-label="Cerrar opciones">✕</button></div>
-        <p>La página busca automáticamente <strong>1.jpg a 33.jpg</strong> en la misma carpeta del HTML; si no están allí, también las busca en <strong>fotos/</strong>. Puedes elegirlas manualmente y añadir la música desde tu teléfono.</p>
+        <p>La página busca automáticamente <strong>1.jpeg a 33.jpeg</strong> en la misma carpeta del HTML; si no están allí, también las busca en <strong>fotos/</strong>. Puedes elegirlas manualmente y añadir la música desde tu teléfono.</p>
         <button id="changePhotos" class="settings-btn" type="button">📷 Cargar o cambiar las 33 fotografías</button>
         <button id="changeFolder" class="settings-btn" type="button">📂 Importar carpeta completa de fotografías</button>
         <button id="changeMusic" class="settings-btn" type="button">♫ Seleccionar archivo de música MP3</button>
@@ -149,7 +149,7 @@
     const app=$('app'), intro=$('intro'), player=$('player'), deck=$('deck'), stage=$('stage');
     const photoInput=$('photoInput'), folderInput=$('folderInput'), musicInput=$('musicInput'), audio=$('bgMusic');
     const settingsBackdrop=$('settingsBackdrop');
-    let photos=Array.from({length:total},(_,i)=>`./${i+1}.jpg`), uploadedUrls=[], index=0, running=true, started=false, advancing=null, musicPlaying=false, toastTimer;
+    let photos=Array.from({length:total},(_,i)=>`./${i+1}.jpeg`), uploadedUrls=[], index=0, running=true, started=false, advancing=null, musicPlaying=false, toastTimer;
     let autoPhotoCount=0, manualPhotoCount=0, savedMusicName='musica.mp3';
     const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
     const pad=n=>String(n).padStart(2,'0');
@@ -167,18 +167,18 @@
         img.loading=offset===0?'eager':'lazy';img.decoding='async';
         // Direct loading, no preliminary test required to display the photograph.
         // If the root photo fails, retry fotos/ and case variants before showing an error.
-        const current=photos[absoluteIndex];const possible=current.startsWith('blob:')?[current]:[current,`./${absoluteIndex+1}.jpg`,`./fotos/${absoluteIndex+1}.jpg`,`./${absoluteIndex+1}.JPG`,`./fotos/${absoluteIndex+1}.JPG`];
+        const current=photos[absoluteIndex];const n=absoluteIndex+1;const possible=current.startsWith('blob:')?[current]:[current,`./${n}.jpeg`,`./fotos/${n}.jpeg`,`./${n}.jpg`,`./fotos/${n}.jpg`,`./${n}.JPEG`,`./fotos/${n}.JPEG`,`./${n}.JPG`,`./fotos/${n}.JPG`];
         const candidates=[...new Set(possible)];let attempt=0;
         img.addEventListener('error',()=>{
           attempt++;
           if(attempt<candidates.length){img.src=candidates[attempt];return}
           img.remove();blur.remove();
           const missing=document.createElement('div');missing.className='photo-placeholder';
-          missing.innerHTML=bookSvg+`<strong>RECUERDO ${number}</strong><span>No se encontró ${absoluteIndex+1}.jpg<br>Usa «Cargar fotografías»</span>`;
+          missing.innerHTML=bookSvg+`<strong>RECUERDO ${number}</strong><span>No se encontró ${absoluteIndex+1}.jpeg<br>Usa «Cargar fotografías»</span>`;
           surface.append(missing);
-          if(absoluteIndex===index&&manualPhotoCount===0)note(`No se pudo abrir ${absoluteIndex+1}.jpg. Revisa que la foto y el HTML estén realmente en la misma carpeta, o usa «Cargar fotografías».`);
+          if(absoluteIndex===index&&manualPhotoCount===0)note(`No se pudo abrir ${absoluteIndex+1}.jpeg. Revisa que la foto y el HTML estén realmente en la misma carpeta, o usa «Cargar fotografías».`);
         });
-        img.addEventListener('load',()=>{if(manualPhotoCount===0)photos[absoluteIndex]=candidates[attempt]});
+        img.addEventListener('load',()=>{blur.style.backgroundImage=`url("${candidates[attempt].replaceAll('"','%22')}")`;if(manualPhotoCount===0)photos[absoluteIndex]=candidates[attempt]});
         img.src=candidates[0];surface.append(img);
       }else{
         const placeholder=document.createElement('div');placeholder.className='photo-placeholder';placeholder.innerHTML=bookSvg+`<strong>RECUERDO ${number}</strong><span>19 años dejando huella<br>Fotografía pendiente</span>`;surface.append(placeholder);
@@ -216,7 +216,7 @@
       $('introLoaded').textContent=manualPhotoCount?`✓ ${manualPhotoCount} fotografía(s) importadas`:
         autoPhotoCount?`✓ ${autoPhotoCount} de 33 fotos encontradas`:
         '⚠ Si tus fotos no aparecen, pulsa «Cargar fotografías» o «Seleccionar carpeta completa».';
-      $('settingsStatus').textContent=`${str}. Se buscan 1.jpg a 33.jpg en la misma carpeta que el HTML (o fotos/). Música: ${savedMusicName}. Si lo abriste en una vista previa, importa la carpeta.`;
+      $('settingsStatus').textContent=`${str}. Se buscan 1.jpeg a 33.jpeg (también admite .jpg) en la misma carpeta que el HTML (o fotos/). Música: ${savedMusicName}. Si lo abriste en una vista previa, importa la carpeta.`;
     }
     function naturalSort(a,b){return a.name.localeCompare(b.name,'es',{numeric:true,sensitivity:'base'})}
     function handlePhotos(files){
@@ -230,11 +230,11 @@
       for(let i=0;i<total;i++){
         const file=useNumbers?indexed.get(i):array[i];
         if(file){const url=URL.createObjectURL(file);uploadedUrls.push(url);photos[i]=url;assigned++}
-        else photos[i]=`./${i+1}.jpg`;
+        else photos[i]=`./${i+1}.jpeg`;
       }
       manualPhotoCount=assigned;updatePhotoStatus();
       if(started){render();flash();schedule()}
-      note(`¡${assigned} fotografías cargadas! ${useNumbers?'Se respetó el orden de 1.jpg a 33.jpg.':''}`);
+      note(`¡${assigned} fotografías cargadas! ${useNumbers?'Se respetó el orden de 1.jpeg a 33.jpeg.':''}`);
     }
     async function tryMusic(){try{await audio.play();musicPlaying=true;syncMusic();}catch(e){musicPlaying=false;syncMusic();if(e.name==='NotAllowedError')note('Toca el botón de música para iniciar el audio.');else note('Para escuchar música, agrega musica.mp3 o selecciónala en Opciones.')}}
     function syncMusic(){const el=$('musicIcon');el.innerHTML=musicPlaying?'<path d="m9 18 8-5V4L9 9H5v9h4Z"/><path d="M20 8a6 6 0 0 1 0 8"/>':'<path d="m9 18 8-5V4L9 9H5v9h4Z"/><path d="m19 9 4 6m0-6-4 6"/>';$('musicBtn').setAttribute('aria-label',musicPlaying?'Silenciar música':'Reproducir música');$('musicBars').classList.toggle('off',!musicPlaying)}
@@ -256,13 +256,13 @@
     document.addEventListener('visibilitychange',schedule);
     let touchStart=null;stage.addEventListener('touchstart',e=>{touchStart={x:e.changedTouches[0].screenX,y:e.changedTouches[0].screenY}},{passive:true});stage.addEventListener('touchend',e=>{if(!touchStart)return;const dx=e.changedTouches[0].screenX-touchStart.x,dy=e.changedTouches[0].screenY-touchStart.y;touchStart=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2){dx<0?next():prev()}},{passive:true});
     // Each numbered photo corresponds directly to its slide:
-    // 1.jpg -> recuerdo 1, 2.jpg -> recuerdo 2, ... 33.jpg -> recuerdo 33.
+    // 1.jpeg -> recuerdo 1, 2.jpeg -> recuerdo 2, ... 33.jpeg -> recuerdo 33.
     // Direct photo URLs are assigned up front. This asynchronous probe is only for diagnostics
     // and to find a fotos/ fallback; failure must never suppress direct rendering.
     async function detectLocalPhotos(){let found=0;
       await Promise.all(Array.from({length:total},(_,i)=>(async()=>{
-        const filename=`${i+1}.jpg`;
-        for(const url of [filename,`fotos/${filename}`]){
+        const name=i+1;
+        for(const url of [`${name}.jpeg`,`fotos/${name}.jpeg`,`${name}.jpg`,`fotos/${name}.jpg`]){
           if(await testImage(url)){
             if(manualPhotoCount===0)photos[i]=url;
             found++;
